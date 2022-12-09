@@ -55,10 +55,14 @@ class Builder{
 					echo "file: {$subPath}=> {$subPath}\n";
 				}
 				file_put_contents($this->distRoot . $targetPath,
-					'<!doctype html><title>' . $subPath . '</title>'
+					'<!doctype html><title>' . substr($subPath, 1, -3) . '</title>'
 					. '<meta content="initial-scale=1,width=device-width" name="viewport" />'
 					. "<style><!--\n" . file_get_contents(__DIR__ . '/styles.css') . '--></style>'
 					. $this->markdownConvert->convert(file_get_contents($file))
+					. '<footer>'
+					. '<a href="https://github.com/tobymackenzie/tobymackenzie.github.io">code</a><br />'
+					. 'By <a href="https://www.tobymackenzie.com">Toby Mackenzie</a>'
+					. '</footer>'
 				);
 			}else{
 				if(!getenv('GITHUB_ACTIONS')){
