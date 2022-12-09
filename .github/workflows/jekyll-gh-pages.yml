@@ -2,6 +2,7 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: ["a"]
+    branches: [$default-branch]
   #--allow manual run
   workflow_dispatch:
 #--permissions to allow deployment
