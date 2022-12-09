@@ -16,8 +16,8 @@ $out .= "GITHUB_RUN_NUMBER: " . getenv('GITHUB_RUN_NUMBER') . "\n";
 $out .= "GITHUB_SHA: " . getenv('GITHUB_SHA') . "\n";
 $out .= "GITHUB_WORKSPACE: " . getenv('GITHUB_WORKSPACE') . "\n";
 $out .= "pwd: " . shell_exec('pwd') . "\n";
-$out .= "ls:\n" . shell_exec('ls -l') . "\n";
-$out .= "ls ..:\n" . shell_exec('ls -l ..') . "\n";
+$out .= "ls\n-----\n\n" . shell_exec('ls') . "\n";
+$out .= "ls ..\n-----\n\n" . shell_exec('ls ..') . "\n";
 
 $out .= "\nran at: " . (new DateTime())->format('Ymd H:i:s') . "\n";
 
