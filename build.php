@@ -1,18 +1,25 @@
 <?php
-$out = "Build\n=====\n\n";
-$out .= "Testing Github build with PHP.\n\n";
-if(getenv('GITHUB_ACTIONS')){
-	$out .= "is Github action\n\n";
-}else{
-	$out .= "not Github action\n\n";
+function buildDir($baseName = '/'){
+	$contentRoot = __DIR__ . '/content';
+	$contentRootLength = strlen($contentRoot);
+	$distRoot = __DIR__ . '/dist';
+	foreach(glob($contentRoot . $baseName . '**') as $file){
+		$subPath = substr($file, $contentRootLength);
+		$targetPath = preg_replace('/\\.md$/i', '.html', $subPath);
+		if(is_file($file)){
+			if(!getenv('GITHUB_ACTIONS')){
+				echo "file: {$subPath}=> {$subPath}\n";
+			}
+			file_put_contents($distRoot . $targetPath, '<!doctype html><title>' . $subPath . '</title><pre><code>' . file_get_contents($file) . '</code></pre>');
+		}else{
+			if(!getenv('GITHUB_ACTIONS')){
+				echo "dir: {$subPath}=> {$subPath}\n";
+			}
+			if(!is_dir($distRoot . $subPath)){
+				mkdir($distRoot . $subPath);
+			}
+			buildDir($subPath . '/');
+		}
+	}
 }
-$out .= "Github ENV variables\n-----\n\n";
-$out .= "GITHUB_RUN_ID: " . getenv('GITHUB_RUN_ID') . "\n";
-$out .= "GITHUB_RUN_NUMBER: " . getenv('GITHUB_RUN_NUMBER') . "\n";
-$out .= "GITHUB_SHA: " . getenv('GITHUB_SHA') . "\n";
-$out .= "pwd: " . shell_exec('pwd') . "\n";
-
-$out .= "\nran at: " . (new DateTime())->format('Ymd H:i:s') . "\n";
-
-
-file_put_contents(__DIR__ . '/dist/build.txt', $out);
+buildDir();

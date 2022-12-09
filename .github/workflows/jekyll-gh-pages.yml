@@ -23,11 +23,6 @@ jobs:
         uses: actions/configure-pages@v2
       #--ensure proper permissions on dist
       - run: 'mkdir dist'
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./content
-          destination: ./dist
       - name: PHP build
         run: php build.php
       - name: Upload artifact
