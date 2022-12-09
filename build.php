@@ -18,6 +18,10 @@ class Builder{
 	public function __construct(){
 		$markEnv = new Environment([
 			'allow_unsafe_links'=> false,
+			'heading_permalink'=> [
+				'insert'=> 'after',
+				'min_heading_level'=> 2,
+			],
 			'table'=> [
 				'wrap'=>[
 					'attributes'=> [
