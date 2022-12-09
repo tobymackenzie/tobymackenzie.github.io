@@ -22,6 +22,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
       #--ensure proper permissions on dist
+      - run: 'composer install'
       - run: 'mkdir dist'
       - name: PHP build
         run: php build.php

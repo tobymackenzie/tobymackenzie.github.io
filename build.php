@@ -1,25 +1,70 @@
 <?php
-function buildDir($baseName = '/'){
-	$contentRoot = __DIR__ . '/content';
-	$contentRootLength = strlen($contentRoot);
-	$distRoot = __DIR__ . '/dist';
-	foreach(glob($contentRoot . $baseName . '**') as $file){
-		$subPath = substr($file, $contentRootLength);
-		$targetPath = preg_replace('/\\.md$/i', '.html', $subPath);
-		if(is_file($file)){
-			if(!getenv('GITHUB_ACTIONS')){
-				echo "file: {$subPath}=> {$subPath}\n";
+require_once(__DIR__ . '/vendor/autoload.php');
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\Attributes\AttributesExtension;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\DescriptionList\DescriptionListExtension;
+use League\CommonMark\Extension\Footnote\FootnoteExtension;
+use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
+use League\CommonMark\Extension\Table\TableExtension;
+use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
+use League\CommonMark\MarkdownConverter;
+
+class Builder{
+	protected $contentRoot = __DIR__ . '/content';
+	protected $distRoot = __DIR__ . '/dist';
+	protected $markdownConvert;
+	public function __construct(){
+		$markEnv = new Environment([
+			'allow_unsafe_links'=> false,
+			'table'=> [
+				'wrap'=>[
+					'attributes'=> [
+						'class'=> 'tableWrap',
+						'enabled'=> 'true',
+						'tag'=> 'div',
+					],
+				],
+			],
+			'table_of_contents'=> [
+				'min_heading_level'=> 2,
+			],
+		]);
+		$markEnv->addExtension(new AttributesExtension());
+		$markEnv->addExtension(new CommonMarkCoreExtension());
+		$markEnv->addExtension(new DescriptionListExtension());
+		$markEnv->addExtension(new FootnoteExtension());
+		$markEnv->addExtension(new FrontMatterExtension());
+		$markEnv->addExtension(new HeadingPermalinkExtension());
+		$markEnv->addExtension(new TableExtension());
+		$markEnv->addExtension(new TableOfContentsExtension());
+		$this->markdownConvert = new MarkdownConverter($markEnv);
+	}
+	public function buildContent($baseName = '/'){
+		$contentRootLength = strlen($this->contentRoot);
+		foreach(glob($this->contentRoot . $baseName . '**') as $file){
+			$subPath = substr($file, $contentRootLength);
+			$targetPath = preg_replace('/\\.md$/i', '.html', $subPath);
+			if(is_file($file)){
+				if(!getenv('GITHUB_ACTIONS')){
+					echo "file: {$subPath}=> {$subPath}\n";
+				}
+				file_put_contents($this->distRoot . $targetPath,
+					'<!doctype html><title>' . $subPath . '</title>'
+					. $this->markdownConvert->convert(file_get_contents($file))
+				);
+			}else{
+				if(!getenv('GITHUB_ACTIONS')){
+					echo "dir: {$subPath}=> {$subPath}\n";
+				}
+				if(!is_dir($this->distRoot . $subPath)){
+					mkdir($this->distRoot . $subPath);
+				}
+				$this->buildContent($subPath . '/');
 			}
-			file_put_contents($distRoot . $targetPath, '<!doctype html><title>' . $subPath . '</title><pre><code>' . file_get_contents($file) . '</code></pre>');
-		}else{
-			if(!getenv('GITHUB_ACTIONS')){
-				echo "dir: {$subPath}=> {$subPath}\n";
-			}
-			if(!is_dir($distRoot . $subPath)){
-				mkdir($distRoot . $subPath);
-			}
-			buildDir($subPath . '/');
 		}
 	}
 }
-buildDir();
+$builder = new Builder();
+$builder->buildContent();
