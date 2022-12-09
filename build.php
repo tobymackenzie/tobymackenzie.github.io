@@ -14,6 +14,10 @@ $out .= "Github ENV variables\n-----\n\n";
 $out .= "GITHUB_RUN_ID: " . getenv('GITHUB_RUN_ID') . "\n";
 $out .= "GITHUB_RUN_NUMBER: " . getenv('GITHUB_RUN_NUMBER') . "\n";
 $out .= "GITHUB_SHA: " . getenv('GITHUB_SHA') . "\n";
+$out .= "GITHUB_WORKSPACE: " . getenv('GITHUB_WORKSPACE') . "\n";
+$out .= "pwd: " . shell_exec('pwd') . "\n";
+$out .= "ls:\n" . shell_exec('ls -l') . "\n";
+$out .= "ls ..:\n" . shell_exec('ls -l ..') . "\n";
 
 $out .= "\nran at: " . (new DateTime())->format('Ymd H:i:s') . "\n";
 
