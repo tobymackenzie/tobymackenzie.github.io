@@ -28,11 +28,8 @@ jobs:
         with:
           source: ./content
           destination: ./dist
-      - run: 'ls'
-      - run: 'ls dist'
-      - run: 'echo "foo" > dist/build.txt'
-      # - name: PHP build
-      #   run: php build.php > ./dist/build.txt
+      - name: PHP build
+        run: php build.php > ./dist/build.txt
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
