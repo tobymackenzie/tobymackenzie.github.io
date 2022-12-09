@@ -1,7 +1,6 @@
 name: Deploy GitHub Pages
 on:
   push:
-    branches: ["a"]
     branches: [$default-branch]
   #--allow manual run
   workflow_dispatch:
