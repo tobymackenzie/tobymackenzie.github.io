@@ -52,6 +52,8 @@ class Builder{
 				}
 				file_put_contents($this->distRoot . $targetPath,
 					'<!doctype html><title>' . $subPath . '</title>'
+					. '<meta content="initial-scale=1,width=device-width" name="viewport" />'
+					. "<style><!--\n" . file_get_contents(__DIR__ . '/styles.css') . '--></style>'
 					. $this->markdownConvert->convert(file_get_contents($file))
 				);
 			}else{
