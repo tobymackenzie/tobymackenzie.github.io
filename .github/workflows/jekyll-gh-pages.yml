@@ -26,8 +26,13 @@ jobs:
         with:
           source: ./content
           destination: ./dist
-      - name: PHP build
-        run: php build.php > ./dist/build.txt
+      - run: 'ls'
+      - run: 'ls ..'
+      - run: 'ls ../..'
+      - run: 'ls ../../..'
+      - run: 'ls ../../../..'
+      # - name: PHP build
+      #   run: php build.php > ./dist/build.txt
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
