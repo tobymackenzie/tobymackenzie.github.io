@@ -13,6 +13,7 @@
 	,"require": {
 		"php": ">=7.1.3"
 		,"league/commonmark": "^2"
+		,"tjm/files": "master@dev"
 	}
 	,"require-dev": {
 		"tjm/dev": "*"

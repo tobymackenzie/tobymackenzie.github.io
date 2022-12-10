@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16f98ddbacfe620fcccedb42c8143499",
+    "content-hash": "2a270aa4f028cbf6d14db366f0dcd412",
     "packages": [
         {
             "name": "dflydev/dot-access-data",
@@ -615,6 +615,48 @@
                 }
             ],
             "time": "2022-11-03T14:55:06+00:00"
+        },
+        {
+            "name": "tjm/files",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tobymackenzie/files.php.git",
+                "reference": "8db65083505590ec3ee7a658c2e8b373e43cdd25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tobymackenzie/files.php/zipball/8db65083505590ec3ee7a658c2e8b373e43cdd25",
+                "reference": "8db65083505590ec3ee7a658c2e8b373e43cdd25",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TJM\\Files\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Toby Mackenzie",
+                    "email": "public@tobymackenzie.com",
+                    "homepage": "https://www.tobymackenzie.com"
+                }
+            ],
+            "description": "File utilities for PHP",
+            "support": {
+                "issues": "https://github.com/tobymackenzie/files.php/issues",
+                "source": "https://github.com/tobymackenzie/files.php/tree/v0.0.2"
+            },
+            "time": "2022-11-22T19:44:28+00:00"
         }
     ],
     "packages-dev": [
@@ -838,7 +880,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "tjm/files": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
