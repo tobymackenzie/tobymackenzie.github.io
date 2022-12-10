@@ -43,8 +43,11 @@ jobs:
         run: 'mkdir dist'
       - name: PHP build
         run: php build.php
-      - name: Site build
-        run: ./site/bin/short
+      - run: 'ls'
+      - run: 'ls site'
+      - run: 'ls site/bin'
+      # - name: Site build
+      #   run: ./site/bin/short
       - name: Upload GH artifact
         uses: actions/upload-pages-artifact@v1
         with:
