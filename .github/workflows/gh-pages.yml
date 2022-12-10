@@ -17,8 +17,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repo
+      - name: Check out project repo
         uses: actions/checkout@v3
+      - name: Check out main site repo
+        uses: actions/checkout@v3
+          repository: tobymackenzie/tobymackenzie.site
+          path: site
       - name: Configure GH Pages
         uses: actions/configure-pages@v2
       - name: Validate composer
@@ -30,12 +34,16 @@ jobs:
           path: vendor
           key: composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: 'composer-'
-      - name: Install deps
+      - name: Install PHP deps
         run: 'composer install --no-progress --prefer-dist'
+      - name: Install system deps
+        run: 'sudo apt install sassc'
       - name: Make dist dir
         run: 'mkdir dist'
       - name: PHP build
         run: php build.php
+      - name: Site build
+        run: ./site/bin/short
       - name: Upload GH artifact
         uses: actions/upload-pages-artifact@v1
         with:
