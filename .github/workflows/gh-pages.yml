@@ -51,7 +51,6 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: ./dist
-          overwrite: true
   deploy:
     environment:
       name: github-pages
@@ -61,4 +60,4 @@ jobs:
     steps:
       - name: Deploy GH Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
