@@ -48,9 +48,10 @@ jobs:
       - name: Site build
         run: ./site/bin/short
       - name: Upload GH artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           path: ./dist
+          overwrite: true
   deploy:
     environment:
       name: github-pages
